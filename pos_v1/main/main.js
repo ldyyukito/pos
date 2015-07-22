@@ -77,7 +77,7 @@ function getPromotionString(cart) {
 
   var proString = '';
   for (var i in cart) {
-    if (promoteItems(cart)&& cart[i].count>2) {      //要改这个条件！！！！
+    if (promoteItems(cart)&& i.count>2) {      //要改这个条件！！！！
       proString += '名称：' + cart[i].name + '，数量：' + cart[i].count % 2 + cart[i].unit + '\n';
     }
   }
@@ -85,7 +85,7 @@ function getPromotionString(cart) {
 }
 
 
-function promoteItems(item) {
+/*function promoteItems(item) {
   var array=[];
   var promotionsLoad = loadPromotions();
   var promotionsBarcode = promotionsLoad[0].barcodes;
@@ -100,9 +100,9 @@ function promoteItems(item) {
   else {
     return false;
   }
-}
+} */
 
-/*function getPromotionbarcode(barcode){
+function getPromotionbarcode(barcode){
   var array = [];
   array.push(loadPromotions().filter(function(val){
     return  (val.type =='BUY_TWO_GET_ONE_FREE');
@@ -114,4 +114,4 @@ function promoteItems(item) {
   else {
     return false;
   }
-}*/
+}
