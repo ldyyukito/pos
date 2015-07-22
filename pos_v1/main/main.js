@@ -85,8 +85,24 @@ function getPromotionString(cart) {
 }
 
 
+function promoteItems(item) {
+  var array=[];
+  var promotionsLoad = loadPromotions();
+  var promotionsBarcode = promotionsLoad[0].barcodes;
+  promotionsBarcode.forEach(function (val) {
+    if (item.barcode === val) {
+      array.push(val);
+    }
+  });
+  if(array.indexOf(item.barcode !== -1)){
+    return  true;
+  }
+  else {
+    return false;
+  }
+}
 
-function getPromotionbarcode(barcode){
+/*function getPromotionbarcode(barcode){
   var array = [];
   array.push(loadPromotions().filter(function(val){
     return  (val.type =='BUY_TWO_GET_ONE_FREE');
@@ -98,4 +114,4 @@ function getPromotionbarcode(barcode){
   else {
     return false;
   }
-}
+}*/
