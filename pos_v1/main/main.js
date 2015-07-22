@@ -10,31 +10,27 @@ function printReceipt(inputs) {
 
 
 
-
-
-
-
-
-
 function countSameElements(collection) {
   var objResult = {};
   var result = [];
-  collection.map(function(val) {
-    return {
-      barcode: val.split("-")[0],
-      count: parseInt(val.split("-")[1] || 1)
-    }
-  }).forEach(function(val) {
+  unifiedForm(collection).forEach(function(val) {
     objResult[val.barcode] = objResult[val.barcode] || 0;
     objResult[val.barcode] += val.count;
   })
   for (var i in objResult) {
     result.push({
-      barcode: i,
-      count: objResult[i]
-    });
+       barcode: i,count: objResult[i]});
   }
   return result;
+}
+
+function unifiedForm(collection) {
+  return collection.map(function(val) {
+    return {
+      barcode: val.split("-")[0],
+      count: parseInt(val.split("-")[1] || 1)
+    }
+  })
 }
 
 
@@ -63,14 +59,13 @@ function list(cart) {
     saveMoney += cart[i].price * cart[i].count - judgeTotalPrice(cart[i]);
     str += '名称：' + cart[i].name + '，数量：' + cart[i].count + cart[i].unit + '，单价：' + cart[i].price.toFixed(2) + '(元)，小计：' + theseMoney.toFixed(2) + '(元)\n';
   }
-  str += '----------------------\n' + '挥泪赠送商品：\n' + getPromotionString(cart) +
-    '----------------------\n' + '总计：' + totalPrice.toFixed(2) + '(元)\n' + '节省：' + saveMoney.toFixed(2) + '(元)\n' + '**********************';
+  str += '----------------------\n' + '挥泪赠送商品：\n' + getPromotionString(cart) +  '----------------------\n' + '总计：' + totalPrice.toFixed(2) + '(元)\n' + '节省：' + saveMoney.toFixed(2) + '(元)\n' + '**********************';
   return str;
 }
 
 function judgeTotalPrice(item) {
   var money = 0;
-  if (item.name === "雪碧" || item.name === "方便面") {
+  if (promoteItems(item)) {
     money += (item.count - parseInt(item.count / 3)) * item.price;
   } else {
     money += item.count * item.price;
@@ -79,11 +74,28 @@ function judgeTotalPrice(item) {
 }
 
 function getPromotionString(cart) {
+
   var proString = '';
   for (var i in cart) {
-    if (cart[i].name === "雪碧" || cart[i].name === "方便面") {
+    if (promoteItems(cart)&& cart[i].count>2) {      //要改这个条件！！！！
       proString += '名称：' + cart[i].name + '，数量：' + cart[i].count % 2 + cart[i].unit + '\n';
     }
   }
   return proString;
+}
+
+
+
+function getPromotionbarcode(barcode){
+  var array = [];
+  array.push(loadPromotions().filter(function(val){
+    return  (val.type =='BUY_TWO_GET_ONE_FREE');
+  })
+);
+  if(array[0][0].barcodes.indexOf(barcode !== -1)){
+    return  true;
+  }
+  else {
+    return false;
+  }
 }
