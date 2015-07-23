@@ -1,33 +1,13 @@
- function printReceipt(inputs) {
-  var str = '***<没钱赚商店>收据***\n';
-  var totalPrice = 0;
-  for (var i = 0; i < inputs.length; i++) {
-    totalPrice += inputs[i].count * inputs[i].price;
-    str += '名称：' + inputs[i].name + '，数量：' + inputs[i].count + inputs[i].unit + '，单价：' + formatPrice(inputs[i].price) + '(元)，小计：' + formatPrice(inputs[i].count * inputs[i].price) + '(元)\n';
-  }
-  str += '----------------------\n' + '总计：'+
-  formatPrice(totalPrice) + '(元)\n' + '**********************';
-  console.log(str);
-
-
-  /*         */
-
-
-
-
-
-
-
 function printReceipt(inputs) {
   console.log(getReceiptString(inputs));
 }
 
-function formatPrice(val) {
-  return val.toFixed(2);
-}
-
-function getSubtotal(item) {
-  return item.count * item.price;
+function getReceiptString(inputs) {
+  var receipt = getItemsString(inputs) +
+  '----------------------\n' +
+  '总计：' + formatPrice(getTotalPrice(inputs)) + '(元)\n' +
+  '**********************';
+  return receipt;
 }
 
 function getItemsString(inputs) {
@@ -38,6 +18,15 @@ function getItemsString(inputs) {
   return receipt;
 }
 
+function formatPrice(val) {
+  return val.toFixed(2);
+}
+
+function getSubtotal(item) {
+  return item.count * item.price;
+}
+
+//虽然一次循环可以算出，但为后续工作考虑，不建议这么做，
 function getTotalPrice(inputs) {
   var totalPrice = 0;
   inputs.forEach(function(val) {
@@ -46,7 +35,18 @@ function getTotalPrice(inputs) {
   return totalPrice;
 }
 
-function getReceiptString(inputs) {
-  var receipt = getItemsString(inputs) + '----------------------\n' + '总计：' + formatPrice(getTotalPrice(inputs)) + '(元)\n' + '**********************';
-  return receipt;
-}
+
+/*
+
+function printReceipt(inputs) {
+ var str = '***<没钱赚商店>收据***\n';
+ var totalPrice = 0;
+ for (var i = 0; i < inputs.length; i++) {
+   totalPrice += inputs[i].count * inputs[i].price;
+   str += '名称：' + inputs[i].name + '，数量：' + inputs[i].count + inputs[i].unit + '，单价：' + formatPrice(inputs[i].price) + '(元)，小计：' + formatPrice(inputs[i].count * inputs[i].price) + '(元)\n';
+ }
+ str += '----------------------\n' + '总计：'+
+ formatPrice(totalPrice) + '(元)\n' + '**********************';
+ console.log(str);
+
+ */
