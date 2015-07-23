@@ -1,5 +1,5 @@
 function printReceipt(inputs) {
-  var result = countSameElements(inputs);
+  var result = countSameItems(inputs);
   var newlist = [];
   for (var m in result) {
     findInAll(result[m], newlist);
@@ -10,10 +10,10 @@ function printReceipt(inputs) {
 
 
 
-function countSameElements(collection) {
+function countSameItems(inputs) {
   var objResult = {};
   var result = [];
-  unifiedForm(collection).forEach(function(val) {
+  unifiedForm(inputs).forEach(function(val) {
     objResult[val.barcode] = objResult[val.barcode] || 0;
     objResult[val.barcode] += val.count;
   })
@@ -33,10 +33,9 @@ function unifiedForm(collection) {
   })
 }
 
-
 function findInAll(item, myCart) {
   var allItems = loadAllItems();
-  for (var z = 0; z < allItems.length; z++) {
+  for (var z in allItems) {
     if (item.barcode === allItems[z].barcode) {
       myCart.push({
         barcode: item.barcode,
@@ -77,30 +76,22 @@ function getPromotionString(cart) {
 
   var proString = '';
   for (var i in cart) {
-    if (getPromotionbarcode(cart[i])&& cart[i].count>2) {      //要改这个条件！！！！
+    if (getPromotionbarcode(cart[i])&& cart[i].count>2) {
       proString += '名称：' + cart[i].name + '，数量：' + cart[i].count % 2 + cart[i].unit + '\n';
     }
   }
   return proString;
 }
-
-
-/*function promoteItems(item) {
-  var array=[];
-  var promotionsLoad = loadPromotions();
-  var promotionsBarcode = promotionsLoad[0].barcodes;
-  promotionsBarcode.forEach(function (val) {
-    if (item.barcode === val) {
-      array.push(val);
+//新加入一个判断类型的函数，就可添加属性
+function getPromotionType(item) {
+  loadPromotions().forEach(function(val) {
+    if(val.barcodes.indexOf(item.barcode) !== -1 ) {
+      var PromotionType = val.type;
     }
-  });
-  if(array.indexOf(item.barcode !== -1)){
-    return  true;
-  }
-  else {
-    return false;
-  }
-}*/
+  })
+  return PromotionType;
+}
+
 
 function getPromotionbarcode(barcode){
   var array = [];
