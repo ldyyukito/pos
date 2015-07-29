@@ -17,9 +17,9 @@ CartItem.prototype.getItemInfo = function() {
   }
 };
 //下面两个有问题。。。。但我不造原因
-CartItem.prototype.getSubtotal = function() {
-  return this._item[0].price * (this.count - this.getPromotionCount());
-
+CartItem.prototype.getSubTotal = function() {
+  var i = this._item[0].price * (this.count - this.getPromotionCount());
+  return i;
 };
 
 CartItem.prototype.getPromotionCount = function() {

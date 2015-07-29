@@ -28,7 +28,7 @@ Pos.prototype.getItemsString = function(cart){
    //console.log(val._item[0].name);
     itemString += '名称：' + val._item[0].name + '，数量：' + val.count + val._item[0].unit +'，单价：' +
      formatPrice(val._item[0].price)+
-    '元,小计：'+ formatPrice(val.getSubTotal) +'元\n';
+    '(元)，小计：'+ formatPrice(val.getSubTotal()) +'(元)\n';
   });
   return itemString;
 };
@@ -39,7 +39,7 @@ Pos.prototype.getPromotionString = function(cart) {
   cart.cartItems.forEach(function(val){
     val.getItemInfo();
     if(val.count>2) {
-    promotionString += '名称：' + val._item[0].name + '，数量:' +
+    promotionString += '名称：' + val._item[0].name + '，数量：' +
      val.getPromotionCount() +val._item[0].unit +'\n';
    }
   });
@@ -48,5 +48,5 @@ Pos.prototype.getPromotionString = function(cart) {
 
 
 function formatPrice(price) {
-  return price;
+  return price.toFixed(2);
 }

@@ -34,15 +34,16 @@ Cart.prototype.addItem = function(collection) {
 Cart.prototype.getTotalPrice = function() {
   var TotalPrice = 0;
   this.cartItems.forEach(function(val) {
-    TotalPrice += val.getSubtotal;
+    TotalPrice += val.getSubTotal();
   });
+  return TotalPrice;
 };
 
 Cart.prototype.getSaving = function() {
   var saving = 0;
 // console.log(this.cartItems);
   this.cartItems.forEach(function(val) {
-    saving += val.count * val._item.price;
+    saving += val.count * val._item[0].price;
   });
   return (saving - this.getTotalPrice());
 
