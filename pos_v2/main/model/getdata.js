@@ -11,7 +11,7 @@ GetData.prototype.get = function(){
     second = this.dateDigitToString(currentDate.getSeconds()),
     formattedDateString = year + '年' + month + '月' + date + '日 ' + hour + ':' + minute + ':' + second;
   return formattedDateString;
-}
+};
 
 GetData.prototype. dateDigitToString = function(num) {
   return num < 10 ? '0' + num : num;
